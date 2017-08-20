@@ -1,0 +1,143 @@
+<!doctype html>
+<html>
+<head>
+<title></title>
+<style>
+@import url('web-form.css');
+#wrapper{
+	background: url('../images/Crowds.jpg');
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position:center top;
+	min-height:450px;
+}
+#header{
+	border-radius:10px;
+	height:100%;
+	max-width:400px;
+	max-height:100px;
+	margin:auto;
+	background: url('../images/logo-2.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position:center;
+}
+.web-form{
+	max-width: 400px;
+}
+#login{
+	display:none;
+}
+.switch{
+	text-align:center;
+	padding:20px;
+}
+</style>
+<script src="script.js">
+</script>
+</head> 
+<body>
+<div id="wrapper">
+<div id="header">
+</div>
+<script>
+
+
+</script>
+<div class="web-form">
+
+<!--section for registration form-->
+<div id="reg">
+<div class="form-title">
+<h2>Sign Up</h2>
+<h3>Listen to tracks and build playlists.</h3>
+</div>
+<form name="reg-form" method="post" action="form_script.php?action=register" onsubmit="return validate_registration()">
+
+<input type="hidden" id="id" name="id"/>
+
+<table>
+	<tr>
+		<td><input class="input-text" placeholder="First name" id="first_name" name="first_name" required/></td>
+		<td><input class="input-text" placeholder="Last name" id="last_name" name="last_name" required/></td>
+		</tr>
+	<tr>
+		<td colspan="2"><input class="input-text" placeholder="Email address" id="email" name="email" required/></td>
+	</tr>
+	<tr>
+		<td colspan="2"><input class="input-text" placeholder="New username (8 or more characters)" id="reg_username" name="username" required/></td>
+	</tr>
+	<tr>
+		<td colspan="2"><input class="input-text" placeholder="New password (8 or more characters)" type="password" id="reg_password" name="password" required/></td>
+	</tr>
+	<tr>
+		<td colspan="2"><input class="input-button-1" type="submit" value="Create Account" /></td>
+	</tr>
+</table>
+</form>
+<hr />
+<div class="switch">
+<label>Have an account?</label> <a href="#login" onclick="toggle_form()">Log in</a>
+</div>
+</div>
+
+<!--section for registration form-->
+<div id="login">
+<div class="form-title">
+<h2>Login</h2>
+<span id="warning" class="error"></span>
+</div>
+<form name="login-form" method="post" action="form_script?action=login.php">
+<table>
+	<tr>
+		<td><input class="input-text" placeholder="Email / Username" id="log_username" name="username" required/></td>
+	</tr>
+	<tr>
+		<td><input class="input-text" placeholder="Password" type="password" id="log_password" name="password" required/></td>
+	</tr>
+	<tr>
+		<td><input class="input-button-2" type="submit" value="Login"/></td>
+	</tr>
+</table>
+</form>
+<hr />
+<div class="switch">
+<label>Don't have an account?</label> <a href="#reg" onclick="toggle_form()">Sign up</a>
+</div>
+</div>
+</div>
+</div>
+</body>
+<script>
+function toggle_form(){
+	
+	document.forms['reg-form'].reset();
+	document.forms['login-form'].reset();
+	generate();
+	var login = document.getElementById('login');
+	var reg = document.getElementById('reg');
+	if(login.style.display == 'block'){
+		login.style.display = 'none';
+		reg.style.display = 'block';
+	}else{
+		login.style.display = 'block';
+		reg.style.display = 'none';
+	}
+}
+function generate(){
+	document.getElementById('id').value = Math.floor(1000 + Math.random() * 9000);
+	
+}
+
+function check(){
+	generate();
+	if(findGetParameter('id') == 'error'){
+		document.getElementById('warning').innerHTML = "Warning: Incorrect username or password!";
+		toggle_form();
+	}
+}
+
+window.onload = check();
+
+</script>
+</html>
