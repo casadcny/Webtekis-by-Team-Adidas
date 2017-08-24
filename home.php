@@ -42,30 +42,58 @@
         <li class=""><a href="friendreq.html">Friend Request </a></li>
          
         <?php
-   mysqli_connect("localhost","root", "");
-   mysqli_select_db("database");
+  $connection = mysqli_connect("localhost","root","","socialnetwork");
 if (isset($_POST['search'])){
-   $search =$_POST['search'];
-   $search = preg_replace("#[^0-9a-z]#i","",$search);
+   $search = $_POST['search'];
+   
 
-   $query = mysql_query("select * from users where ussername like '%$search%' or firstname like '%$search%' or lastname like '%$search%'");
+$query = mysqli_query($connection,"select * from user where username like '$search' or firstname like '$search' or lastname like '$search'");
 
-while($row = mysql_fetch_array($query)) {
+if($query->num_rows > 0){ 
+    
+    echo 
+        "<table>
+        <tr>
+        <th>Username</th>
+        <th>lastname</th>
+        <th>firstname</th>
+        </tr>
+        ";
+    
+while($row = mysqli_fetch_assoc($query)) {
 $fname = $row['firstname'];
 $uname = $row['username'];
 $lname = $row['lastname'];
-$id = $row['id'];
-$ output .= '<div>'.$fname.' '.$lname.' '.$uname.'</div>';
-}
-
-}
-?>
-    <form action="home.jsp" method="post">
-    <input type="text" class="form-control" name="search" placeholder="Search">
-    <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
-    </form>
+         
+    echo "<tr>
+    
+        <td>$uname</td>
+        <td>$lname</td>
+        <td>$fname</td>
+        </tr>";
         
-        <?php_print("$output);?>
+}
+    echo "</table>";
+}else{
+      
+    echo 
+        "<table>
+        <tr>
+        <th>Username</th>
+        <th>lastname</th>
+        <th>firstname</th>
+        </tr>
+         </table>";
+}
+}
+        
+?>
+    <form action="home.php" method="post">
+    <input type="text" class="form-control" name="search" placeholder="Search">
+    <button type="submit"  id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
+    </form>
+   
+        
         
     <ul class="nav navbar-nav navbar-right">
        <li class="dropdown">
@@ -217,4 +245,4 @@ $ output .= '<div>'.$fname.' '.$lname.' '.$uname.'</div>';
 <script src="dist/js/demo.js"></script>
     
 </body>
-</html>
+    </html>
